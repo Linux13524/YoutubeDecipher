@@ -1,0 +1,27 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+IndentWidth: 4
+# don't indent public, private and protected
+AccessModifierOffset: -4
+BreakBeforeBraces: Attach
+# respect user choice for line breaking
+ColumnLimit: 0
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+DerivePointerAlignment: false
+PointerAlignment: Left
+NamespaceIndentation: All
+SortIncludes: true
+
+IncludeCategories:
+  - Regex:           '<[^./]+>' # c++ stl includes
+    Priority:        -3
+  - Regex:           '<.+>' # c++ stl includes
+    Priority:        -1
+  - Regex:           '(<|")[^/]+(>|")' # includes without path
+    Priority:        0
+  - Regex:           '(<|").+(>|")' # includes with path
+    Priority:        3
+...
+
