@@ -5,5 +5,22 @@
 This c++-library is able do decipher signatures of Youtube-Videos.
 
 ## Usage:
-- Include the library into your cmake build
-- call Youtube::Decipher::instance(videoHtml).decipherSignature(signature)
+- Add the library into your cmake build
+- Include the `decipher.h` into your code
+- call `Youtube::Decipher::instance(videoHtml).decipherSignature(signature)`
+
+   `videoHtml`: 
+   - The html of the desired video (it also may be any other videos html); used to extract the ytplayer.js
+      
+      It is not needed to provide the whole html due to simple regexing (see section "How does it work?") 
+      
+   `signature`:
+   - The signature you want to decipher
+   
+## Dependencies:
+Uses **Boost-Asio** for network access and **Boost-Regex** for regexing the html and javascript files.
+
+Uses **Open SSL** to perform https request
+
+## How does it work?
+will be added in future

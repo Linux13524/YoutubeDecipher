@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <tuple>
 
 namespace Youtube {
     class Decipher {
@@ -26,7 +27,7 @@ namespace Youtube {
         std::string loadDecipherFuncName(std::string& decipherJs);
         std::string loadDecipherFuncDefinition(std::string& decipherJs, std::string& decipherFuncName);
         std::string loadSubFuncName(std::string& decipherFuncDefinition);
-        std::string loadSubFuncDefinition(std::string& decipherJs, std::string& subFuncName);
+        std::string loadSubFuncDefinition(std::string &decipherJs, std::string &subFuncName);
         void extractSubFuncNames(std::string &subFuncDefinition);
         void extractDecipher(std::string& decipherFuncDefinition);
 

@@ -10,33 +10,27 @@ set(OpenSSL_LINKAGE OpenSSL::SSL OpenSSL::Crypto)
 
 
 ### BOOST
-find_package(Boost COMPONENTS system thread regex log REQUIRED)
+find_package(Boost COMPONENTS system regex REQUIRED)
 
 set(CMAKE_USE_LIBSSH2 ON)
 set(CMAKE_USE_OPENSSL ON)
 
-if (MINGW)
-    # mingw-gcc fails to link boost::thread
-    add_definitions(-DBOOST_THREAD_USE_LIB)
-endif()
-
-add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
-add_definitions(-DBOOST_LOG_DYN_LINK)
-
-set(Boost_LINKAGE Boost::system Boost::thread Boost::regex Boost::log)
+set(Boost_LINKAGE Boost::system Boost::regex )
 
 ### Youtube-Decipher build
-set(Source_Dir ${CMAKE_CURRENT_SOURCE_DIR}/src/)
-set(Include_Dir ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-
-file(GLOB_RECURSE Headers ${Include_Dir}/*.h)
-file(GLOB_RECURSE Sources ${Source_Dir}/*.cpp)
+file(GLOB_RECURSE Headers include/*.h include/*.hpp)
+file(GLOB_RECURSE Sources src/*.cpp)
 
 include_directories(
-        ${Include_Dir}
+        include
+        include/utils/json
         ${Boost_INCLUDE_DIRS}
 )
 
-add_library(Youtube_Decipher ${Headers} ${Sources})
+add_library(Youtube_Decipher STATIC ${Headers} ${Sources})
 
-target_link_libraries(Youtube_Decipher ${Boost_LINKAGE})
+if(MINGW)
+    target_link_libraries(Youtube_Decipher PRIVATE  ${Boost_LINKAGE} ${OpenSSL_LINKAGE} ws2_32)
+else()
+    target_link_libraries(Youtube_Decipher PRIVATE  ${Boost_LINKAGE} ${OpenSSL_LINKAGE})
+endif()

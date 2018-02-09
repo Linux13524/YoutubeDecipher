@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <boost/regex.hpp>
-#include "json/json.hpp"
-#include "networking/networking.h"
 #include "youtube/decipher.h"
+#include "utils/json/json.hpp"
+#include "utils/networking/networking.h"
 
 using json = nlohmann::json;
 
@@ -93,11 +93,17 @@ std::string Youtube::Decipher::loadSubFuncName(std::string& decipherFuncDefiniti
 
 std::string Youtube::Decipher::loadSubFuncDefinition(std::string& decipherJs, std::string& subFuncName) {
     // SubFuncName may contain special chars like $
-    std::string fixedSubFuncName;
+    std::string fixedSubFuncName(subFuncName);
+    std::string specialChars = "@&+-";  // TODO: add possible chars used by youtube
 
-    for(auto c : subFuncName){
-        fixedSubFuncName.append(1, '\\');
-        fixedSubFuncName.append(1, c);
+    // Fix the sub-function name to be detected correctly by regex in case it contains a special character
+    for (auto c : specialChars) {
+        auto pos = fixedSubFuncName.find(c);
+        if (pos != std::string::npos) {
+            std::string fixedChar("\\");
+            fixedChar.append(1, c);
+            fixedSubFuncName.replace(pos, 1, fixedChar);
+        }
     }
 
     std::string strRegex = R"(var\s)" + fixedSubFuncName + R"(={((?:\n|.)*?)};)";
