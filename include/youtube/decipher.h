@@ -1,9 +1,9 @@
-#ifndef YOUTUBE_LIST_DOWNLOADER_DECIPHER_H
-#define YOUTUBE_LIST_DOWNLOADER_DECIPHER_H
+#ifndef YOUTUBE_DECIPHER_DECIPHER_H
+#define YOUTUBE_DECIPHER_DECIPHER_H
 
 #include <string>
-#include <vector>
 #include <tuple>
+#include <vector>
 
 namespace Youtube {
     class Decipher {
@@ -13,7 +13,7 @@ namespace Youtube {
             return _instance;
         }
 
-        void decipherSignature(std::string &signature);
+        void decipherSignature(std::string& signature);
 
     private:
         Decipher() = default;
@@ -27,8 +27,8 @@ namespace Youtube {
         std::string loadDecipherFuncName(std::string& decipherJs);
         std::string loadDecipherFuncDefinition(std::string& decipherJs, std::string& decipherFuncName);
         std::string loadSubFuncName(std::string& decipherFuncDefinition);
-        std::string loadSubFuncDefinition(std::string &decipherJs, std::string &subFuncName);
-        void extractSubFuncNames(std::string &subFuncDefinition);
+        std::string loadSubFuncDefinition(std::string& decipherJs, std::string& subFuncName);
+        void extractSubFuncNames(std::string& subFuncDefinition);
         void extractDecipher(std::string& decipherFuncDefinition);
 
         void subReverse(std::string& a, int b);
@@ -43,4 +43,4 @@ namespace Youtube {
     };
 }  // namespace Youtube
 
-#endif  //YOUTUBE_LIST_DOWNLOADER_DECIPHER_H
+#endif  //YOUTUBE_DECIPHER_DECIPHER_H
