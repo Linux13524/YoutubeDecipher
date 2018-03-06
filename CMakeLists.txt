@@ -3,13 +3,15 @@ project(Youtube_Decipher)
 
 set(CMAKE_CXX_STANDARD 11)
 
-### OPENSSL
+### OPENSSL - static - lib*.a
+set(OPENSSL_USE_STATIC_LIBS ON)
 find_package(OpenSSL REQUIRED)
 
 set(OpenSSL_LINKAGE OpenSSL::SSL OpenSSL::Crypto)
 
 
-### BOOST
+### BOOST - static - libboost_*-mt.a
+set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS system regex REQUIRED)
 
 set(CMAKE_USE_LIBSSH2 ON)
