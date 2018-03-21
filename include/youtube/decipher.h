@@ -1,5 +1,7 @@
-#ifndef YOUTUBE_DECIPHER_DECIPHER_H
-#define YOUTUBE_DECIPHER_DECIPHER_H
+// Copyright (c) 2018 Linus Klöckner
+
+#ifndef LIB_YOUTUBE_DECIPHER_INCLUDE_YOUTUBE_DECIPHER_H_
+#define LIB_YOUTUBE_DECIPHER_INCLUDE_YOUTUBE_DECIPHER_H_
 
 #include <string>
 #include <tuple>
@@ -7,40 +9,40 @@
 
 namespace Youtube {
     class Decipher {
-    public:
-        static Decipher& instance(std::string& videoHtml) {
-            static Decipher _instance(videoHtml);
+     public:
+        static Decipher& Instance(const std::string& p_video_html) {
+            static Decipher _instance(p_video_html);
             return _instance;
         }
 
-        void decipherSignature(std::string& signature);
+        void DecipherSignature(std::string* p_signature);
 
-    private:
+     private:
         Decipher() = default;
-        explicit Decipher(std::string& videoHtml) {
-            loadDecipher(videoHtml);
-        };
+        explicit Decipher(const std::string& p_video_html) {
+            LoadDecipher(p_video_html);
+        }
 
-        void loadDecipher(std::string& videoHtml);
+        void LoadDecipher(const std::string& p_video_html);
 
-        std::string loadDecipherJS(std::string& videoHtml);
-        std::string loadDecipherFuncName(std::string& decipherJs);
-        std::string loadDecipherFuncDefinition(std::string& decipherJs, std::string& decipherFuncName);
-        std::string loadSubFuncName(std::string& decipherFuncDefinition);
-        std::string loadSubFuncDefinition(std::string& decipherJs, std::string& subFuncName);
-        void extractSubFuncNames(std::string& subFuncDefinition);
-        void extractDecipher(std::string& decipherFuncDefinition);
+        std::string LoadDecipherJS(const std::string& p_video_html);
+        std::string LoadDecipherFuncName(const std::string& p_decipher_js);
+        std::string LoadDecipherFuncDefinition(const std::string& p_decipher_js, const std::string& p_decipher_func_name);
+        std::string LoadSubFuncName(const std::string& p_decipher_func_definition);
+        std::string LoadSubFuncDefinition(const std::string& p_decipher_js, const std::string& p_sub_func_name);
+        void ExtractSubFuncNames(const std::string& p_sub_func_definition);
+        void ExtractDecipher(const std::string& p_decipher_func_definition);
 
-        void subReverse(std::string& a, int b);
-        void subSplice(std::string& a, int b);
-        void subSwap(std::string& a, int b);
+        void SubReverse(std::string* p_a);
+        void SubSplice(std::string* p_a, int p_b);
+        void SubSwap(std::string* p_a, int p_b);
 
-        std::string subReverseName;
-        std::string subSpliceName;
-        std::string subSwapName;
+        std::string m_sub_reverse_name;
+        std::string m_sub_splice_name;
+        std::string m_sub_swap_name;
 
-        std::vector<std::tuple<std::string, int>> decipher;
+        std::vector<std::tuple<std::string, int>> m_decipher;
     };
-}  // namespace Youtube
+}   // namespace Youtube
 
-#endif  //YOUTUBE_DECIPHER_DECIPHER_H
+#endif   // LIB_YOUTUBE_DECIPHER_INCLUDE_YOUTUBE_DECIPHER_H_

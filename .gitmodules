@@ -1,0 +1,3 @@
+[submodule "lib/HttpsGetProvider"]
+	path = lib/HttpsGetProvider
+	url = https://github.com/Linux13524/HttpsGetProvider.git

@@ -20,14 +20,17 @@ set(CMAKE_USE_OPENSSL ON)
 set(Boost_LINKAGE Boost::system Boost::regex )
 
 ### Youtube-Decipher build
-file(GLOB_RECURSE Headers include/*.h include/*.hpp)
+file(GLOB_RECURSE Headers
+        include/*.h
+        lib/HttpsGetProvider/*.hpp
+        lib/json/*.hpp)
 file(GLOB_RECURSE Sources src/*.cpp)
 
 include_directories(
         include
         include/utils/json
         ${Boost_INCLUDE_DIRS}
-)
+        lib)
 
 add_library(Youtube_Decipher STATIC ${Headers} ${Sources})
 
