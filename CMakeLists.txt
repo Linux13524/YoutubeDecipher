@@ -1,16 +1,24 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.11)
 project(Youtube_Decipher)
 
 set(CMAKE_CXX_STANDARD 11)
 
-### OPENSSL - static - lib*.a
+if (MINGW)
+    set(Platform_LINKAGE ws2_32)
+elseif (ANDROID)
+    set(BOOST_ROOT ${ANDROID_NDK}/libs/Boost/1.66.0/${ANDROID_ABI})
+    set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/1.1.0h/${ANDROID_ABI})
+    set(Platform_LINKAGE log)
+endif ()
+
+### OPENSSL - static
 set(OPENSSL_USE_STATIC_LIBS ON)
 find_package(OpenSSL REQUIRED)
 
 set(OpenSSL_LINKAGE OpenSSL::SSL OpenSSL::Crypto)
 
 
-### BOOST - static - libboost_*-mt.a
+### BOOST - static
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS system regex REQUIRED)
 
@@ -34,8 +42,4 @@ include_directories(
 
 add_library(Youtube_Decipher STATIC ${Headers} ${Sources})
 
-if(MINGW)
-    target_link_libraries(Youtube_Decipher PRIVATE  ${Boost_LINKAGE} ${OpenSSL_LINKAGE} ws2_32)
-else()
-    target_link_libraries(Youtube_Decipher PRIVATE  ${Boost_LINKAGE} ${OpenSSL_LINKAGE})
-endif()
+target_link_libraries(Youtube_Decipher PRIVATE  ${Boost_LINKAGE} ${OpenSSL_LINKAGE} ${Platform_LINKAGE})
