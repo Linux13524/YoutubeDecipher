@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.6)
 project(Youtube_Decipher)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 11)
 if (MINGW)
     set(Platform_LINKAGE ws2_32)
 elseif (ANDROID)
-    set(BOOST_ROOT ${ANDROID_NDK}/libs/Boost/1.66.0/${ANDROID_ABI})
-    set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/1.1.0h/${ANDROID_ABI})
+    set(BOOST_ROOT ${ANDROID_NDK}/libs/Boost/${ANDROID_ABI})
+    set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/${ANDROID_ABI})
     set(Platform_LINKAGE log)
 endif ()
 
