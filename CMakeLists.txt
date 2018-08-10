@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(PROJECT_VERSION 1.0)
 set(CMAKE_DEBUG_POSTFIX "-d")
 
+if(POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+endif()
+
 if (ANDROID)
     set(BOOST_ROOT ${ANDROID_NDK}/libs/Boost/${ANDROID_ABI})
     set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/${ANDROID_ABI})
