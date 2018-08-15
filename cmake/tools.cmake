@@ -3,29 +3,29 @@ if(COMMAND configure_and_install)
     return()
 endif()
 
-function(configure_and_install _version_compare_rules)
+function(configure_and_install _project_name _version_compare_rules)
     # set variables
     include(CMakePackageConfigHelpers)
-    set(ConfigPackageSource ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME})
-    set(ConfigPackageDestination lib/cmake/${CMAKE_PROJECT_NAME})
+    set(ConfigPackageSource ${CMAKE_CURRENT_BINARY_DIR}/${_project_name})
+    set(ConfigPackageDestination lib/cmake/${_project_name})
     write_basic_package_version_file(
-            ${ConfigPackageSource}/${CMAKE_PROJECT_NAME}-config-version.cmake
+            ${ConfigPackageSource}/${_project_name}-config-version.cmake
             COMPATIBILITY ${_version_compare_rules})
 
     # install
-    install(TARGETS ${CMAKE_PROJECT_NAME} EXPORT ${CMAKE_PROJECT_NAME}Targets
+    install(TARGETS ${_project_name} EXPORT ${_project_name}Targets
             LIBRARY DESTINATION lib
             ARCHIVE DESTINATION lib
             RUNTIME DESTINATION bin
             INCLUDES DESTINATION include)
-    install(EXPORT ${CMAKE_PROJECT_NAME}Targets
+    install(EXPORT ${_project_name}Targets
             DESTINATION ${ConfigPackageDestination}
-            FILE ${CMAKE_PROJECT_NAME}-targets.cmake
+            FILE ${_project_name}-targets.cmake
             NAMESPACE Linux13524::)
     install(FILES
-            "cmake/${CMAKE_PROJECT_NAME}-config.cmake"
-            "${ConfigPackageSource}/${CMAKE_PROJECT_NAME}-config-version.cmake"
+            "cmake/${_project_name}-config.cmake"
+            "${ConfigPackageSource}/${_project_name}-config-version.cmake"
             DESTINATION ${ConfigPackageDestination}
             COMPONENT Devel)
-    install(DIRECTORY include/${CMAKE_PROJECT_NAME} DESTINATION include)
+    install(DIRECTORY include/${_project_name} DESTINATION include)
 endfunction()

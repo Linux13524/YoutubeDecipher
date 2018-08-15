@@ -40,12 +40,12 @@ add_library(YoutubeDecipher STATIC
 target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
 
 target_include_directories(YoutubeDecipher PUBLIC
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
-            $<INSTALL_INTERFACE:include>
-            $<INSTALL_INTERFACE:lib>
-            $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
-            $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
+        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:lib>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
+        $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
+        $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
 
 target_link_libraries(YoutubeDecipher
         PRIVATE ${Boost_LIBRARIES}
@@ -62,4 +62,4 @@ add_library(Linux13524::YoutubeDecipher ALIAS YoutubeDecipher)
 set_target_properties(YoutubeDecipher PROPERTIES PUBLIC_HEADER "include/YoutubeDecipher/decipher.h")
 
 ### For installation of the library
-configure_and_install(SameMajorVersion)
+configure_and_install(YoutubeDecipher SameMajorVersion)
