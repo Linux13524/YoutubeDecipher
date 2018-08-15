@@ -37,7 +37,11 @@ add_library(YoutubeDecipher STATIC
         lib/json/json.hpp
         src/youtube/decipher.cpp)
 
-target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
+if (CMAKE_VERSION VERSION_LESS "3.8")
+    set(CMAKE_CXX_STANDARD 11)
+else()
+    target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
+endif()
 
 target_include_directories(YoutubeDecipher PUBLIC
         $<INSTALL_INTERFACE:include>
