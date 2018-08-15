@@ -1,6 +1,6 @@
 // Copyright (c) 2018 Linus Klöckner
 
-#include "youtube/decipher.h"
+#include "YoutubeDecipher/decipher.h"
 
 #include "HttpsGetProvider/networking.hpp"
 #include "json/json.hpp"

@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.6)
 project(YoutubeDecipher)
 
-set(CMAKE_CXX_STANDARD 11)
-set(PROJECT_VERSION 1.0)
+include(cmake/tools.cmake)
+
+set(PROJECT_VERSION 1.0.0)
 set(CMAKE_DEBUG_POSTFIX "-d")
 
 if(POLICY CMP0074)
@@ -29,13 +30,14 @@ set(CMAKE_USE_OPENSSL ON)
 
 ### Youtube-Decipher build
 add_library(YoutubeDecipher STATIC
-        include/youtube/decipher.h
+        include/YoutubeDecipher/decipher.h
         lib/HttpsGetProvider/json.hpp
         lib/HttpsGetProvider/networking.hpp
         lib/HttpsGetProvider/root_certificates.hpp
         lib/json/json.hpp
-        src/youtube/decipher.cpp
-        )
+        src/youtube/decipher.cpp)
+
+target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
 
 target_include_directories(YoutubeDecipher PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -43,36 +45,21 @@ target_include_directories(YoutubeDecipher PUBLIC
             $<INSTALL_INTERFACE:include>
             $<INSTALL_INTERFACE:lib>
             $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
-            $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>
-        )
+            $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
 
 target_link_libraries(YoutubeDecipher
-        ${Boost_LIBRARIES}
-        ${OPENSSL_LIBRARIES}
-        )
+        PRIVATE ${Boost_LIBRARIES}
+        PRIVATE ${OPENSSL_LIBRARIES})
 
 if (MINGW)
-    target_link_libraries(YoutubeDecipher ws2_32)
+    target_link_libraries(YoutubeDecipher PRIVATE ws2_32)
 elseif (ANDROID)
-    target_link_libraries(YoutubeDecipher log)
+    target_link_libraries(YoutubeDecipher PRIVATE log)
 endif()
 
-set_target_properties(YoutubeDecipher PROPERTIES PUBLIC_HEADER "include/youtube/decipher.h")
-install(TARGETS YoutubeDecipher EXPORT YoutubeDecipherTargets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
-        PUBLIC_HEADER DESTINATION include
-        )
+add_library(Linux13524::YoutubeDecipher ALIAS YoutubeDecipher)
 
-install(EXPORT YoutubeDecipherTargets
-        FILE YoutubeDecipherTargets.cmake
-        NAMESPACE YT::
-        DESTINATION cmake)
+set_target_properties(YoutubeDecipher PROPERTIES PUBLIC_HEADER "include/YoutubeDecipher/decipher.h")
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/YoutubeDecipherConfigVersion.cmake
-        COMPATIBILITY SameMajorVersion)
-
-install(FILES "cmake/YoutubeDecipherConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}/YoutubeDecipherConfigVersion.cmake"
-        DESTINATION cmake)
+### For installation of the library
+configure_and_install(SameMajorVersion)
