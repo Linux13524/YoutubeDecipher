@@ -66,4 +66,11 @@ add_library(Linux13524::YoutubeDecipher ALIAS YoutubeDecipher)
 set_target_properties(YoutubeDecipher PROPERTIES PUBLIC_HEADER "include/YoutubeDecipher/decipher.h")
 
 ### For installation of the library
+install(TARGETS YoutubeDecipher EXPORT YoutubeDecipherTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include)
+install(DIRECTORY include/YoutubeDecipher DESTINATION include)
+
 configure_and_install(YoutubeDecipher SameMajorVersion)
