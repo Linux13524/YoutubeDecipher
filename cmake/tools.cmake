@@ -13,11 +13,6 @@ function(configure_and_install _project_name _version_compare_rules)
             COMPATIBILITY ${_version_compare_rules})
 
     # install
-    install(TARGETS ${_project_name} EXPORT ${_project_name}Targets
-            LIBRARY DESTINATION lib
-            ARCHIVE DESTINATION lib
-            RUNTIME DESTINATION bin
-            INCLUDES DESTINATION include)
     install(EXPORT ${_project_name}Targets
             DESTINATION ${ConfigPackageDestination}
             FILE ${_project_name}-targets.cmake

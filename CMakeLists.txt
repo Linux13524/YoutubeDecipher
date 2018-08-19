@@ -15,6 +15,11 @@ if (ANDROID)
     set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/${ANDROID_ABI})
 endif ()
 
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS)
+endif()
+
 ### OPENSSL - static
 set(OPENSSL_USE_STATIC_LIBS ON)
 find_package(OpenSSL REQUIRED)
@@ -70,7 +75,8 @@ install(TARGETS YoutubeDecipher EXPORT YoutubeDecipherTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         RUNTIME DESTINATION bin
-        INCLUDES DESTINATION include)
+        INCLUDES DESTINATION include
+        PUBLIC_HEADER DESTINATION include)
 install(DIRECTORY include/YoutubeDecipher DESTINATION include)
 
 configure_and_install(YoutubeDecipher SameMajorVersion)
