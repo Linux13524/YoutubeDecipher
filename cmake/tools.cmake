@@ -6,7 +6,7 @@ endif()
 function(configure_and_install _project_name _version_compare_rules)
     # set variables
     include(CMakePackageConfigHelpers)
-    set(ConfigPackageSource ${CMAKE_CURRENT_BINARY_DIR})
+    set(ConfigPackageSource ${CMAKE_CURRENT_BINARY_DIR}/config)
     set(ConfigPackageDestination lib/cmake/${_project_name})
     write_basic_package_version_file(
             ${ConfigPackageSource}/${_project_name}-config-version.cmake
@@ -22,5 +22,5 @@ function(configure_and_install _project_name _version_compare_rules)
             "${ConfigPackageSource}/${_project_name}-config-version.cmake"
             DESTINATION ${ConfigPackageDestination}
             COMPONENT Devel)
-    install(DIRECTORY include/${_project_name} DESTINATION include)
+
 endfunction()
