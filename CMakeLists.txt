@@ -10,22 +10,19 @@ if(POLICY CMP0074)
     cmake_policy(SET CMP0074 NEW)
 endif()
 
-if (ANDROID)
-    set(BOOST_ROOT ${ANDROID_NDK}/libs/Boost/${ANDROID_ABI})
-    set(OPENSSL_ROOT_DIR ${ANDROID_NDK}/libs/OpenSSL/${ANDROID_ABI})
-endif ()
-
-### OPENSSL - static
-set(OPENSSL_USE_STATIC_LIBS ON)
-find_package(OpenSSL REQUIRED)
-
-
-### BOOST - static
-set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.66 COMPONENTS system regex REQUIRED)
 
 set(CMAKE_USE_LIBSSH2 ON)
 set(CMAKE_USE_OPENSSL ON)
+set(OPENSSL_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_LIBS ON)
+
+if(NOT CONAN_OPENSSL_ROOT)
+    find_package(OpenSSL REQUIRED)
+endif ()
+
+if(NOT CONAN_BOOST_ROOT)
+    find_package(Boost 1.66 COMPONENTS system regex REQUIRED)
+endif()
 
 
 ### Youtube-Decipher build
