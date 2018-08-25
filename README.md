@@ -10,17 +10,17 @@ This c++-library is able do decipher signatures of Youtube-Videos.
 - call `Youtube::Decipher::instance(videoHtml).DecipherSignature(signature)`
 
    `videoHtml`: 
-   - The html of the desired video (it also may be any other videos html); used to extract the ytplayer.js
+   - Any Youtube video HTML (used to extract the ytplayer.js)
       
-      It is not needed to provide the whole html due to simple regexing (see section "How does it work?") 
+      It is not necessary to provide the whole html due to simple regexing (see section "How does it work?") 
       
    `signature`:
    - The signature you want to decipher
    
 ## Dependencies:
-Uses **Boost-Asio** for network access and **Boost-Regex** for regexing the html and javascript files.
+Uses **Boost-Beast** for network access and **Boost-Regex** for regexing the html and javascript files.
 
 Uses **Open SSL** to perform https request
 
 ## How does it work?
-will be added in future
+See the [wiki](https://github.com/Linux13524/Youtube-Decipher/wiki)
