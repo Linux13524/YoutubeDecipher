@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(YoutubeDecipher)
 
 include(cmake/tools.cmake)
+include(cmake/conan.cmake)
 
 set(PROJECT_VERSION 1.0.0)
 set(CMAKE_DEBUG_POSTFIX "-d")
@@ -10,29 +11,42 @@ if(POLICY CMP0074)
     cmake_policy(SET CMP0074 NEW)
 endif()
 
+if (MINGW)
+    set(Platform_LINKAGE ws2_32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static") # link everything statically so the user does not need to install MinGW
+    set(CONAN_SETTINGS compiler.exception=seh compiler.threads=posix)
+elseif(ANDROID)
+    set(Platform_LINKAGE log)
+    set(CMAKE_CXX_COMPILER_VERSION "5.0")
+endif()
 
+### Library settings
 set(CMAKE_USE_LIBSSH2 ON)
 set(CMAKE_USE_OPENSSL ON)
 set(OPENSSL_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_LIBS ON)
 
-if(NOT CONAN_OPENSSL_ROOT)
-    find_package(OpenSSL REQUIRED)
-endif ()
-
-if(NOT CONAN_BOOST_ROOT)
-    find_package(Boost 1.66 COMPONENTS system regex REQUIRED)
-endif()
+### Run conan install to get dependencies
+conan_cmake_run(CONANFILE conanfile.txt
+        BASIC_SETUP
+        SETTINGS ${CONAN_SETTINGS}
+        BUILD missing)
 
 
 ### Youtube-Decipher build
-add_library(YoutubeDecipher STATIC
+set(Headers
         include/YoutubeDecipher/decipher.h
         lib/HttpsGetProvider/json.hpp
         lib/HttpsGetProvider/networking.hpp
         lib/HttpsGetProvider/root_certificates.hpp
-        lib/json/json.hpp
+        lib/json/json.hpp)
+
+set(Sources
         src/youtube/decipher.cpp)
+
+add_library(YoutubeDecipher STATIC
+        ${Headers}
+        ${Sources})
 
 if (CMAKE_VERSION VERSION_LESS "3.8")
     set(CMAKE_CXX_STANDARD 11)
@@ -40,23 +54,16 @@ else()
     target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
 endif()
 
-target_include_directories(YoutubeDecipher PUBLIC
-        $<INSTALL_INTERFACE:include>
-        $<INSTALL_INTERFACE:lib>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
-        $<BUILD_INTERFACE:${Boost_INCLUDE_DIRS}>
-        $<BUILD_INTERFACE:${OPENSSL_INCLUDE_DIR}>)
+target_include_directories(YoutubeDecipher
+        INTERFACE $<INSTALL_INTERFACE:include>
+        INTERFACE $<INSTALL_INTERFACE:lib>
+        PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
+        PRIVATE $<BUILD_INTERFACE:${CONAN_INCLUDE_DIRS}>)
 
 target_link_libraries(YoutubeDecipher
-        PRIVATE ${Boost_LIBRARIES}
-        PRIVATE ${OPENSSL_LIBRARIES})
-
-if (MINGW)
-    target_link_libraries(YoutubeDecipher PRIVATE ws2_32)
-elseif (ANDROID)
-    target_link_libraries(YoutubeDecipher PRIVATE log)
-endif()
+        PRIVATE ${CONAN_LIBS}
+        PRIVATE ${Platform_LINKAGE})
 
 add_library(Linux13524::YoutubeDecipher ALIAS YoutubeDecipher)
 
