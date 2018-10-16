@@ -29,8 +29,7 @@ set(Boost_USE_STATIC_LIBS ON)
 ### Run conan install to get dependencies
 conan_cmake_run(CONANFILE conanfile.txt
         BASIC_SETUP
-        SETTINGS ${CONAN_SETTINGS}
-        BUILD missing)
+        SETTINGS ${CONAN_SETTINGS})
 
 
 ### Youtube-Decipher build
