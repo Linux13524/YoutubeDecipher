@@ -27,6 +27,7 @@ namespace Youtube {
 
         std::string LoadDecipherJS(const std::string& p_video_html);
         std::string LoadDecipherFuncName(const std::string& p_decipher_js);
+        std::string LoadDecipherFuncName2(const std::string& p_decipher_js);
         std::string LoadDecipherFuncDefinition(const std::string& p_decipher_js, const std::string& p_decipher_func_name);
         std::string LoadSubFuncName(const std::string& p_decipher_func_definition);
         std::string LoadSubFuncDefinition(const std::string& p_decipher_js, const std::string& p_sub_func_name);

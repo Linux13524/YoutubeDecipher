@@ -26,7 +26,7 @@ void Youtube::Decipher::DecipherSignature(std::string* p_signature) {
 
 void Youtube::Decipher::LoadDecipher(const std::string& p_video_html) {
     std::string decipher_js = LoadDecipherJS(p_video_html);
-    std::string decipher_func_name = LoadDecipherFuncName(decipher_js);
+    std::string decipher_func_name = LoadDecipherFuncName2(decipher_js);
     std::string decipher_func_definition = LoadDecipherFuncDefinition(decipher_js, decipher_func_name);
     std::string sub_func_name = LoadSubFuncName(decipher_func_definition);
     std::string sub_func_definition = LoadSubFuncDefinition(decipher_js, sub_func_name);
@@ -56,6 +56,18 @@ std::string Youtube::Decipher::LoadDecipherJS(const std::string& p_video_html) {
 std::string Youtube::Decipher::LoadDecipherFuncName(const std::string& p_decipher_js) {
     // RegExes
     boost::regex expr_decipher_func_name{R"("signature",(\w\w))"};
+
+    // Matches
+    boost::smatch matches_decipher_func;
+
+    // Search decipher function
+    boost::regex_search(p_decipher_js, matches_decipher_func, expr_decipher_func_name);
+    return matches_decipher_func[1];
+}
+
+std::string Youtube::Decipher::LoadDecipherFuncName2(const std::string& p_decipher_js) {
+    // RegExes
+    boost::regex expr_decipher_func_name{R"((\w\w)=function\(\w+?\)\{\w=\w\.split\(""\).+?return\s\w\.join\(""\)\})"};
 
     // Matches
     boost::smatch matches_decipher_func;
