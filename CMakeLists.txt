@@ -5,7 +5,9 @@ include(cmake/tools.cmake)
 include(cmake/conan.cmake)
 
 set(PROJECT_VERSION 1.0.0)
-set(CMAKE_DEBUG_POSTFIX "-d")
+if(NOT ANDROID)
+    set(CMAKE_DEBUG_POSTFIX "-d")
+endif()
 
 if(POLICY CMP0074)
     cmake_policy(SET CMP0074 NEW)
@@ -29,7 +31,7 @@ set(Boost_USE_STATIC_LIBS ON)
 ### CONAN
 if(ANDROID)
     # Android builts need "bin/install_dependencies_android.sh" to be run first
-    set(CONAN_BUILD_INFO ${CMAKE_CURRENT_SOURCE_DIR}/Platform-Android/conan_build_${ANDROID_ABI}/conanbuildinfo.cmake)
+    set(CONAN_BUILD_INFO ${CMAKE_CURRENT_SOURCE_DIR}/Platform-Android/build/conan_${ANDROID_ABI}_${CMAKE_BUILD_TYPE}/conanbuildinfo.cmake)
     if(EXISTS ${CONAN_BUILD_INFO})
         include(${CONAN_BUILD_INFO})
         conan_basic_setup()
