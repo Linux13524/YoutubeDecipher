@@ -49,9 +49,6 @@ endif()
 ### Youtube-Decipher build
 set(Headers
         include/YoutubeDecipher/decipher.h
-        lib/HttpsGetProvider/json.hpp
-        lib/HttpsGetProvider/networking.hpp
-        lib/HttpsGetProvider/root_certificates.hpp
         lib/json/json.hpp)
 
 set(Sources
