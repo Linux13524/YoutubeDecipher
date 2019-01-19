@@ -2,14 +2,14 @@
 
 #include "YoutubeDecipher/decipher.h"
 
-#include "HttpsGetProvider/networking.hpp"
+#include "cpr/cpr.h"
 #include "json/json.hpp"
 
 #include <algorithm>
 #include <boost/regex.hpp>
 #include <string>
 
-// using json = nlohmann::json;
+using json = nlohmann::json;
 
 void Youtube::Decipher::DecipherSignature(std::string* p_signature) {
     for (const auto& sub : m_decipher) {
@@ -46,11 +46,13 @@ std::string Youtube::Decipher::LoadDecipherJS(const std::string& p_video_html) {
     std::string str_decipher_js = matches_assets[1];
 
     json json_decipher_js = json::parse(str_decipher_js);
+    std::string str_decipher = json_decipher_js["js"];
 
     // Load video player JS
-    Networking::Https::Response html_response = Networking::Https::Get("s.ytimg.com", json_decipher_js["js"], "*/*");
+    cpr::Response html_response = cpr::Get(cpr::Url{"s.ytimg.com/" + str_decipher},
+                                           cpr::VerifySsl{false}); // cpr currently not supports ca files
 
-    return html_response.m_body;
+    return html_response.text;
 }
 
 std::string Youtube::Decipher::LoadDecipherFuncName(const std::string& p_decipher_js) {
