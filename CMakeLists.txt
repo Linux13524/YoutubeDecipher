@@ -11,8 +11,6 @@ if(POLICY CMP0074)
 endif()
 
 if (MINGW)
-    # TODO: can maybe be removed
-    # set(Platform_LINKAGE ws2_32)
     set(CMAKE_EXE_LINKER_FLAGS "-static") # link everything statically so the user does not need to install MinGW
     set(CONAN_SETTINGS compiler.exception=seh compiler.threads=posix)
 elseif(ANDROID)
