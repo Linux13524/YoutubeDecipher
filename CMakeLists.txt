@@ -6,10 +6,6 @@ include(cmake/conan.cmake)
 
 set(PROJECT_VERSION 1.0.0)
 
-if(POLICY CMP0074)
-    cmake_policy(SET CMP0074 NEW)
-endif()
-
 if (MINGW)
     set(CMAKE_EXE_LINKER_FLAGS "-static") # link everything statically so the user does not need to install MinGW
     set(CONAN_SETTINGS compiler.exception=seh compiler.threads=posix)
