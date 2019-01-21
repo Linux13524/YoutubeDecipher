@@ -4,7 +4,7 @@ project(YoutubeDecipher)
 include(cmake/tools.cmake)
 include(cmake/conan.cmake)
 
-set(PROJECT_VERSION 1.0.0)
+set(PROJECT_VERSION 1.0.1)
 
 if (MINGW)
     set(CMAKE_EXE_LINKER_FLAGS "-static") # link everything statically so the user does not need to install MinGW
