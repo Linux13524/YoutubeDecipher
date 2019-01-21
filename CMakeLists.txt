@@ -18,11 +18,6 @@ elseif(ANDROID)
     set(CMAKE_CXX_COMPILER_VERSION "5.0")
 endif()
 
-### Library settings
-set(CMAKE_USE_LIBSSH2 ON)
-set(CMAKE_USE_OPENSSL ON)
-set(OPENSSL_USE_STATIC_LIBS ON)
-
 ### CONAN
 # Runs conan install to get dependencies
 conan_cmake_run(CONANFILE conanfile.txt
