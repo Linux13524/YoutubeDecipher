@@ -3,7 +3,7 @@
 
 | Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-|[![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/e4r4f6521m63o3ws?svg=true)](https://ci.appveyor.com/project/Linux13524/conan-youtube-decipher)|[![Build Status](https://travis-ci.com/Linux13524/conan-youtube_decipher.svg?branch=testing%2F1.0.1)](https://travis-ci.com/Linux13524/conan-youtube_decipher)|
+|[![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/9g8p38mi3pa8onsp?svg=true)](https://ci.appveyor.com/project/Linux13524/youtube-decipher)|[![Build Status](https://travis-ci.com/Linux13524/Youtube-Decipher.svg)](https://travis-ci.com/Linux13524/Youtube-Decipher)|
 
 ## Description:
 This c++-library is able do decipher signatures of Youtube-Videos.
