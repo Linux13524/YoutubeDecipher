@@ -1,0 +1,48 @@
+build: false
+
+environment:
+    PYTHON: "C:\\Python37"
+
+    CONAN_REFERENCE: "youtube_decipher/1.0.1"
+    CONAN_USERNAME: "linux13524"
+    CONAN_LOGIN_USERNAME: "linux13524"
+    CONAN_CHANNEL: "testing"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
+    CONAN_BUILD_POLICY: "missing"
+
+    matrix:
+
+        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
+          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Debug
+          CONAN_VISUAL_RUNTIMES: MDd
+          CONAN_ARCHS: x86
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Release
+          CONAN_VISUAL_RUNTIMES: MD
+          CONAN_ARCHS: x86
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Debug
+          CONAN_VISUAL_RUNTIMES: MDd
+          CONAN_ARCHS: x86_64
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          CONAN_VISUAL_VERSIONS: 15
+          CONAN_BUILD_TYPES: Release
+          CONAN_VISUAL_RUNTIMES: MD
+          CONAN_ARCHS: x86_64
+
+
+install:
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe install conan --upgrade
+  - pip.exe install conan_package_tools
+  - conan user # It creates the conan data directory
+
+test_script:
+  - python build.py

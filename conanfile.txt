@@ -1,9 +1,0 @@
-[requires]
-boost/1.66.0@linux13524/stable
-cpr/1.3.0@linux13524/stable
-
-[options]
-boost:shared=False
-
-[generators]
-cmake

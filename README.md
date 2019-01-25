@@ -1,11 +1,40 @@
 # Youtube-Decipher
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a904a29e8a57484cb79c6d39d9da7061)](https://www.codacy.com/app/Linux13524/Youtube-Decipher?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Linux13524/Youtube-Decipher&amp;utm_campaign=Badge_Grade)
+## Package Status
+
+| Bintray | Windows | Linux & macOS |
+|:--------:|:---------:|:-----------------:|
+|[![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/e4r4f6521m63o3ws?svg=true)](https://ci.appveyor.com/project/Linux13524/conan-youtube-decipher)|[![Build Status](https://travis-ci.com/Linux13524/conan-youtube_decipher.svg?branch=testing%2F1.0.1)](https://travis-ci.com/Linux13524/conan-youtube_decipher)|
 
 ## Description:
 This c++-library is able do decipher signatures of Youtube-Videos.
 
-## Usage:
-- Add the library into your cmake build
+### Basic setup
+
+    $ conan install youtube_decipher/1.0.1@linux13524/stable
+
+### Project setup
+
+If you handle multiple dependencies in your project is better to add a *conanfile.txt*
+
+    [requires]
+    youtube_decipher/1.0.1@linux13524/testing
+
+    [options]
+
+    [generators]
+    cmake
+
+Complete the installation of requirements for your project running:</small></span>
+
+    conan install .
+
+Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.txt* and *conanbuildinfo.cmake*
+with all the paths and variables that you need to link with your dependencies.
+
+Follow the Conan getting started: http://docs.conan.io
+
+### Usage
+
 - Include the `decipher.h` into your code
 - call `Youtube::Decipher::instance(videoHtml).DecipherSignature(signature)`
 
@@ -18,9 +47,7 @@ This c++-library is able do decipher signatures of Youtube-Videos.
    - The signature you want to decipher
    
 ## Dependencies:
-Uses **Boost-Beast** for network access and **Boost-Regex** for regexing the html and javascript files.
-
-Uses **Open SSL** to perform https request
+`boost/1.66.0@conan/stable`, `cpr/1.3.0@linux13524/stable`
 
 ## How does it work?
 See the [wiki](https://github.com/Linux13524/Youtube-Decipher/wiki)

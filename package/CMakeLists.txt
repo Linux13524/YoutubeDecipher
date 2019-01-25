@@ -16,7 +16,7 @@ endif()
 
 ### CONAN
 # Runs conan install to get dependencies
-conan_cmake_run(CONANFILE conanfile.txt
+conan_cmake_run(CONANFILE ../conanfile.py
         BASIC_SETUP
         SETTINGS ${CONAN_SETTINGS})
 
