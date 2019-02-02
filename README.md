@@ -1,16 +1,18 @@
-# Youtube-Decipher
-## Package Status
+[![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)
+[![Build Status Travis](https://travis-ci.com/Linux13524/Youtube-Decipher.svg?branch=testing%2F1.0.1)](https://travis-ci.com/Linux13524/Youtube-Decipher)
+[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/linux13524/youtube-decipher?branch=testing%2F1.0.1&svg=true)](https://ci.appveyor.com/project/linux13524/youtube-decipher)
 
-| Bintray | Windows | Linux & macOS |
-|:--------:|:---------:|:-----------------:|
-|[![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/9g8p38mi3pa8onsp?svg=true)](https://ci.appveyor.com/project/Linux13524/youtube-decipher)|[![Build Status](https://travis-ci.com/Linux13524/Youtube-Decipher.svg)](https://travis-ci.com/Linux13524/Youtube-Decipher)|
+## Conan package recipe for *youtube_decipher*
 
-## Description:
-This c++-library is able do decipher signatures of Youtube-Videos.
+Library to decipher youtube signatures
+
+The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524).
+
+## For Users
 
 ### Basic setup
 
-    $ conan install youtube_decipher/1.0.1@linux13524/stable
+    $ conan install youtube_decipher/1.0.1@linux13524/testing
 
 ### Project setup
 
@@ -19,21 +21,35 @@ If you handle multiple dependencies in your project is better to add a *conanfil
     [requires]
     youtube_decipher/1.0.1@linux13524/testing
 
-    [options]
-
     [generators]
     cmake
 
-Complete the installation of requirements for your project running:</small></span>
+Complete the installation of requirements for your project running:
 
-    conan install .
+    $ mkdir build && cd build && conan install ..
 
-Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.txt* and *conanbuildinfo.cmake*
-with all the paths and variables that you need to link with your dependencies.
+Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
 
-Follow the Conan getting started: http://docs.conan.io
 
-### Usage
+## Build and package
+
+The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
+
+    $ conan create . linux13524/testing
+
+
+### Available Options
+| Option        | Default | Possible Values  |
+| ------------- |:----------------- |:------------:|
+| shared      | False |  [True, False] |
+| fPIC      | True |  [True, False] |
+
+
+## Add Remote
+
+    $ conan remote add linux13524 "https://api.bintray.com/conan/linux13524/conan"
+
+## Usage
 
 - Include the `decipher.h` into your code
 - call `Youtube::Decipher::instance(videoHtml).DecipherSignature(signature)`
@@ -51,3 +67,7 @@ Follow the Conan getting started: http://docs.conan.io
 
 ## How does it work?
 See the [wiki](https://github.com/Linux13524/Youtube-Decipher/wiki)
+
+## License
+
+[MIT](https://github.com/Linux13524/Youtube-Decipher/blob/testing/1.0.1/LICENSE.md)
