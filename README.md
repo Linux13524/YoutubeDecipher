@@ -1,6 +1,6 @@
 [![Download](https://api.bintray.com/packages/linux13524/conan/youtube_decipher%3Alinux13524/images/download.svg) ](https://bintray.com/linux13524/conan/youtube_decipher%3Alinux13524/_latestVersion)
-[![Build Status Travis](https://travis-ci.com/Linux13524/Youtube-Decipher.svg?branch=testing%2F1.0.1)](https://travis-ci.com/Linux13524/Youtube-Decipher)
-[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/github/linux13524/youtube-decipher?branch=testing%2F1.0.1&svg=true)](https://ci.appveyor.com/project/linux13524/youtube-decipher)
+[![Build Status Travis](https://travis-ci.com/Linux13524/YoutubeDecipher.svg?branch=testing%2F1.0.1)](https://travis-ci.com/Linux13524/YoutubeDecipher)
+[![Build Status AppVeyor](https://ci.appveyor.com/api/projects/status/9g8p38mi3pa8onsp/branch/testing/1.0.1?svg=true)](https://ci.appveyor.com/project/linux13524/youtube-decipher)
 
 ## Conan package recipe for *youtube_decipher*
 

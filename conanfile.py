@@ -7,7 +7,7 @@ class YoutubeDecipherConan(ConanFile):
     version = "1.0.1"
     license = "MIT"
     author = "Linus Kloeckner (linus.kloeckner@googlemail.com)"
-    url = "https://github.com/Linux13524/Youtube-Decipher"
+    url = "https://github.com/Linux13524/YoutubeDecipher"
     description = "Library to decipher youtube signatures"
     topics = ("youtube", "decipher", "signature")
     settings = "os", "compiler", "build_type", "arch"
