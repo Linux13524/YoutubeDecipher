@@ -8,11 +8,17 @@ environment:
     CONAN_LOGIN_USERNAME: "linux13524"
     CONAN_CHANNEL: "testing"
     CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
-    CONAN_BUILD_POLICY: "missing"
+    CONAN_BUILD_POLICY: "outdated"
 
     matrix:
 
         - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
+          CONAN_BUILD_TYPES: Debug
+        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
+          CONAN_BUILD_TYPES: Release
+        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
           CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
           CONAN_BUILD_TYPES: Debug
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"

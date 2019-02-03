@@ -6,7 +6,7 @@ env:
      - CONAN_LOGIN_USERNAME: "linux13524"
      - CONAN_CHANNEL: "testing"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
-     - CONAN_BUILD_POLICY: "missing"
+     - CONAN_BUILD_POLICY: "outdated"
 
 linux: &linux
    os: linux
