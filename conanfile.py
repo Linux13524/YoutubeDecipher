@@ -24,12 +24,9 @@ class YoutubeDecipherConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include", src="package/include")
-        self.copy("*.a", dst="lib", src="lib", keep_path=False)
-        self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("*.lib", dst="lib", src="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.dylib*", dst="lib", keep_path=False)
+        cmake = CMake(self)
+        cmake.configure(source_folder="package")
+        cmake.install()
 
     def package_info(self):
         LIB_POSTFIX = "-d" if self.settings.build_type == "Debug" else ""
