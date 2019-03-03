@@ -5,6 +5,7 @@ env:
      - CONAN_USERNAME: "linux13524"
      - CONAN_LOGIN_USERNAME: "linux13524"
      - CONAN_CHANNEL: "testing"
+     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
      - CONAN_BUILD_POLICY: "outdated"
 
