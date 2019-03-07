@@ -7,6 +7,7 @@ env:
      - CONAN_CHANNEL: "testing"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
+     - CONAN_UPLOAD_DEPENDENCIES: "all"
      - CONAN_BUILD_POLICY: "outdated"
 
 linux: &linux
