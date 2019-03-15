@@ -13,7 +13,7 @@ class YoutubeDecipherConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=True"
-    requires = "boost/1.66.0@conan/stable", "cpr/1.3.0@linux13524/stable"
+    requires = "boost/1.69.0@conan/stable", "cpr/1.3.0@linux13524/stable"
     generators = "cmake"
     exports_sources = "package/*"
 

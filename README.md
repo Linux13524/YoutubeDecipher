@@ -63,7 +63,7 @@ The following command both runs all the steps of the conan file, and publishes t
    - The signature you want to decipher
    
 ## Dependencies:
-`boost/1.66.0@conan/stable`, `cpr/1.3.0@linux13524/stable`
+`boost/1.69.0@conan/stable`, `cpr/1.3.0@linux13524/stable`
 
 ## How does it work?
 See the [wiki](https://github.com/Linux13524/Youtube-Decipher/wiki)
