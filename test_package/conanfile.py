@@ -8,6 +8,8 @@ class YoutubedecipherTestConan(ConanFile):
     generators = "cmake"
 
     def build(self):
+        if tools.cross_building(self.settings):
+            return
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
@@ -18,6 +20,8 @@ class YoutubedecipherTestConan(ConanFile):
         self.copy('*.so*', dst='bin', src='lib')
 
     def test(self):
-        if not tools.cross_building(self.settings):
-            os.chdir("bin")
-            self.run(".%sYoutubeDecipherTest" % os.sep)
+        if tools.cross_building(self.settings):
+            return
+
+        os.chdir("bin")
+        self.run(".%sYoutubeDecipherTest" % os.sep)

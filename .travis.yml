@@ -28,6 +28,14 @@ matrix:
         env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7 CONAN_ARCHS=x86_64
       - <<: *linux
         env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8 CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=7.0  CONAN_ARCHS=armv7   CONAN_CONFIG_URL="https://github.com/Linux13524/conan-config.git"  CONAN_BASE_PROFILE=android_21_armeabi-v7a_clang
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=7.0  CONAN_ARCHS=armv8   CONAN_CONFIG_URL="https://github.com/Linux13524/conan-config.git"  CONAN_BASE_PROFILE=android_21_arm64-v8a_clang
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=7.0  CONAN_ARCHS=x86     CONAN_CONFIG_URL="https://github.com/Linux13524/conan-config.git"  CONAN_BASE_PROFILE=android_21_x86_clang
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=7.0  CONAN_ARCHS=x86_64  CONAN_CONFIG_URL="https://github.com/Linux13524/conan-config.git"  CONAN_BASE_PROFILE=android_21_x86_64_clang
 
 install:
   - chmod +x .travis/install.sh
