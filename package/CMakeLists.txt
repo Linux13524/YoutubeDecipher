@@ -11,7 +11,8 @@ if (MINGW)
     set(CONAN_SETTINGS compiler.exception=seh compiler.threads=posix)
 elseif(ANDROID)
     set(Platform_LINKAGE log)
-    set(CMAKE_CXX_COMPILER_VERSION "7.0")
+    # May be removed?
+    # set(CMAKE_CXX_COMPILER_VERSION "7.0")
 endif()
 
 ### CONAN
