@@ -13,10 +13,14 @@ class YoutubeDecipherConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = "shared=False", "fPIC=True"
-    requires = "boost/1.69.0@conan/stable", "cpr/1.3.0@linux13524/stable"
     generators = "cmake"
     exports = ["LICENSE.md"]
-    exports_sources = "package/*"
+    exports_sources = "src/*"
+
+    def requirements(self):
+        self.requires("boost/1.69.0")
+        self.requires("cpr/1.3.0")
+        self.requires("nlohmann_json/3.10.0")
 
     def configure(self):
         if self.settings.compiler == 'Visual Studio':
@@ -24,12 +28,12 @@ class YoutubeDecipherConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder="package")
+        cmake.configure(source_folder="src")
         cmake.build()
 
     def package(self):
         cmake = CMake(self)
-        cmake.configure(source_folder="package")
+        cmake.configure(source_folder="src")
         cmake.install()
         # Copy sources for debugging
         if self.settings.build_type == "Debug":

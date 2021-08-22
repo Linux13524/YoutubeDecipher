@@ -24,10 +24,10 @@ conan_cmake_run(CONANFILE ../conanfile.py
 ### Youtube-Decipher build
 set(Headers
         include/YoutubeDecipher/decipher.h
-        lib/json/json.hpp)
+        ${CONAN_INCLUDE_DIRS})
 
 set(Sources
-        src/youtube/decipher.cpp)
+        youtube/decipher.cpp)
 
 add_library(YoutubeDecipher STATIC
         ${Headers}
