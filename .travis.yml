@@ -3,12 +3,11 @@ env:
    global:
      - CONAN_REFERENCE: "youtube_decipher/1.0.1"
      - CONAN_USERNAME: "linux13524"
-     - CONAN_LOGIN_USERNAME: "linux13524"
      - CONAN_CHANNEL: "testing"
      - CONAN_STABLE_BRANCH_PATTERN: "release/*"
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
      - CONAN_UPLOAD_DEPENDENCIES: "all"
      - CONAN_BUILD_POLICY: "outdated"
+     - CONAN_REVISIONS_ENABLED: 1
 
 linux: &linux
    os: linux
@@ -18,16 +17,14 @@ linux: &linux
    python: "3.6"
    services:
      - docker
-osx: &osx
-   os: osx
-   language: generic
+
 matrix:
    include:
 
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7 CONAN_ARCHS=x86_64
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_ARCHS=x86_64
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=lasote/conangcc8 CONAN_ARCHS=x86_64
+        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_ARCHS=x86_64
       - <<: *linux
         env: CONAN_CLANG_VERSIONS=8  CONAN_ARCHS=armv7   CONAN_CONFIG_URL="https://github.com/Linux13524/conan-config.git"  CONAN_BASE_PROFILE=android_21_armeabi-v7a_clang_l
       - <<: *linux
@@ -40,7 +37,6 @@ matrix:
 install:
   - chmod +x .travis/install.sh
   - ./.travis/install.sh
-
 script:
   - chmod +x .travis/run.sh
   - ./.travis/run.sh

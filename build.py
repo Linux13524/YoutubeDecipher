@@ -6,15 +6,12 @@ import os
 def docker_entry_script():
     return " ".join(["conan config install http://github.com/conan-io/hooks.git -sf hooks -tf hooks &&",
                      "conan config set hooks.attribute_checker &&",
-                     "conan config set hooks.binary_linter &&",
-                     "conan config set hooks.bintray_updater &&",
-                     "conan config set hooks.conan-center_reviewer &&",
                      "conan config set hooks.github_updater &&",
                      "conan config set hooks.spdx_checker"])
 
 
 def pip_extra_packages():
-    return ["https://github.com/lief-project/packages/raw/lief-master-latest/pylief-0.9.0.dev.zip", "spdx_lookup"]
+    return ["spdx_lookup"]
 
 
 if __name__ == "__main__":

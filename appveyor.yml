@@ -1,23 +1,20 @@
-build: false
+build: Script
 
 environment:
-    PYTHON: "C:\\Python37"
+    PYTHON_DIR: "C:\\Python38-x64\\"
+    PYTHON_EXE: "C:\\Python38-x64\\python.exe"
+    PYTHON_PIP: "C:\\Python38-x64\\Scripts\\pip.exe"
 
     CONAN_REFERENCE: "youtube_decipher/1.0.1"
     CONAN_USERNAME: "linux13524"
-    CONAN_LOGIN_USERNAME: "linux13524"
     CONAN_CHANNEL: "testing"
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
-    CONAN_UPLOAD: "https://api.bintray.com/conan/linux13524/conan"
     CONAN_UPLOAD_DEPENDENCIES: "all"
     CONAN_BUILD_POLICY: "outdated"
+    CONAN_REVISIONS_ENABLED: 1
 
     matrix:
 
-        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
-          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
-        - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-          CONAN_BASH_PATH: "c:\\msys64\\usr\\bin\\bash"
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
           CONAN_VISUAL_VERSIONS: 15
           CONAN_BUILD_TYPES: Debug
@@ -31,19 +28,16 @@ environment:
 
 
 install:
-  - set PATH=%PATH%;%PYTHON%/Scripts/
-  - pip.exe install conan --upgrade
-  - pip.exe install conan_package_tools
-  - pip.exe install https://github.com/lief-project/packages/raw/lief-master-latest/pylief-0.9.0.dev.zip
-  - pip.exe install spdx_lookup
+  - set PATH=%PATH%;%PYTHON_DIR%/Scripts/
+  - "%PYTHON_PIP% install conan --upgrade"
+  - "%PYTHON_PIP% install conan_package_tools"
+  - "%PYTHON_PIP% install spdx_lookup"
+  - dir "%PYTHON_DIR%\\Scripts\\"
   - conan user # It creates the conan data directory
   - conan config install http://github.com/conan-io/hooks.git -sf hooks -tf hooks # Install and enable the hooks
   - conan config set hooks.attribute_checker
-  - conan config set hooks.binary_linter
-  - conan config set hooks.bintray_updater
-  - conan config set hooks.conan-center_reviewer
   - conan config set hooks.github_updater
   - conan config set hooks.spdx_checker
 
-test_script:
-  - python build.py
+build_script:
+  - "%PYTHON_EXE% build.py"

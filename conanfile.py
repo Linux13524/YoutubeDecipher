@@ -4,6 +4,8 @@ from conans import ConanFile, CMake
 class YoutubeDecipherConan(ConanFile):
     name = "youtube_decipher"
     version = "1.0.1"
+    default_user = "linux13524"
+    default_channel = "testing"
     license = "MIT"
     author = "Linus Kloeckner (linus.kloeckner@googlemail.com)"
     url = "https://github.com/Linux13524/YoutubeDecipher"
