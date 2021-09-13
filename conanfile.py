@@ -18,7 +18,6 @@ class YoutubeDecipherConan(ConanFile):
     exports_sources = "src/*"
 
     def requirements(self):
-        self.requires("boost/1.69.0")
         self.requires("cpr/1.3.0")
         self.requires("nlohmann_json/3.10.0")
 

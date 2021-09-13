@@ -6,12 +6,11 @@
 #include "nlohmann/json.hpp"
 
 #include <algorithm>
-#include <boost/xpressive/xpressive.hpp>
+#include <regex>
 #include <stdexcept>
 #include <string>
 
 using json = nlohmann::json;
-using namespace boost::xpressive;
 
 void Youtube::Decipher::DecipherSignature(std::string* p_signature) {
     for (const auto& sub : m_decipher) {
@@ -38,19 +37,19 @@ void Youtube::Decipher::LoadDecipher(const std::string& p_video_html) {
 
 std::string Youtube::Decipher::LoadDecipherJS(const std::string& p_video_html) {
     // RegExes
-    sregex expr_player_url = sregex::compile(R"((?:PLAYER_JS_URL|jsUrl)\"\s*:\s*\"(?P<url>[^"]+))");
+    std::regex expr_player_url(R"((?:PLAYER_JS_URL|jsUrl)\"\s*:\s*\"([^"]+))");
 
     // Matches
-    smatch matches_player_url;
+    std::smatch matches_player_url;
 
     // Search player URL
-    regex_search(p_video_html, matches_player_url, expr_player_url);
+    std::regex_search(p_video_html, matches_player_url, expr_player_url);
 
     if (matches_player_url.empty()) {
         throw std::runtime_error("Could not find player URL!");
     }
 
-    std::string str_decipher = matches_player_url["url"];
+    std::string str_decipher = matches_player_url[1];
 
     // Load video player JS
     cpr::Response html_response = cpr::Get(cpr::Url{"https://www.youtube.com" + str_decipher},
@@ -61,24 +60,24 @@ std::string Youtube::Decipher::LoadDecipherJS(const std::string& p_video_html) {
 
 std::string Youtube::Decipher::LoadDecipherFuncName(const std::string& p_decipher_js) {
     // RegExes
-    std::vector<sregex> regex_list = {
-        sregex::compile(R"(\b[cs]\s*&&\s*[adf]\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*(?P<sig>[a-zA-Z0-9$]+)\()"),
-        sregex::compile(R"(\b[a-zA-Z0-9]+\s*&&\s*[a-zA-Z0-9]+\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*(?P<sig>[a-zA-Z0-9$]+)\()"),
-        sregex::compile(R"(\bm=(?P<sig>[a-zA-Z0-9$]{2})\(decodeURIComponent\(h\.s\)\))"),
-        sregex::compile(R"(\bc&&\(c=(?P<sig>[a-zA-Z0-9$]{2})\(decodeURIComponent\(c\)\))"),
-        sregex::compile(R"((?:\b|[^a-zA-Z0-9$])(?P<sig>[a-zA-Z0-9$]{2})\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\);[a-zA-Z0-9$]{2}\.[a-zA-Z0-9$]{2}\(a,\d+\))"),
-        sregex::compile(R"((?:\b|[^a-zA-Z0-9$])(?P<sig>[a-zA-Z0-9$]{2})\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\))"),
-        sregex::compile(R"((?P<sig>[a-zA-Z0-9$]+)\s*=\s*function\(\s*a\s*\)\s*{\s*a\s*=\s*a\.split\(\s*""\s*\))")
+    std::vector<std::regex> regex_list = {
+        std::regex(R"(\b[cs]\s*&&\s*[adf]\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*([a-zA-Z0-9$]+)\()"),
+        std::regex(R"(\b[a-zA-Z0-9]+\s*&&\s*[a-zA-Z0-9]+\.set\([^,]+\s*,\s*encodeURIComponent\s*\(\s*([a-zA-Z0-9$]+)\()"),
+        std::regex(R"(\bm=([a-zA-Z0-9$]{2})\(decodeURIComponent\(h\.s\)\))"),
+        std::regex(R"(\bc&&\(c=([a-zA-Z0-9$]{2})\(decodeURIComponent\(c\)\))"),
+        std::regex(R"((?:\b|[^a-zA-Z0-9$])([a-zA-Z0-9$]{2})\s*=\s*function\(\s*a\s*\)\s*\{\s*a\s*=\s*a\.split\(\s*""\s*\);[a-zA-Z0-9$]{2}\.[a-zA-Z0-9$]{2}\(a,\d+\))"),
+        std::regex(R"((?:\b|[^a-zA-Z0-9$])([a-zA-Z0-9$]{2})\s*=\s*function\(\s*a\s*\)\s*\{\s*a\s*=\s*a\.split\(\s*""\s*\))"),
+        std::regex(R"(([a-zA-Z0-9$]+)\s*=\s*function\(\s*a\s*\)\s*\{\s*a\s*=\s*a\.split\(\s*""\s*\))")
     };
     
     // Matches
-    smatch matches_decipher_func;
+    std::smatch matches_decipher_func;
 
     // Search decipher function
     for (auto& regex_expr : regex_list) {
-        regex_search(p_decipher_js, matches_decipher_func, regex_expr);
+        std::regex_search(p_decipher_js, matches_decipher_func, regex_expr);
         if (!matches_decipher_func.empty()) {
-            return matches_decipher_func["sig"];
+            return matches_decipher_func[1];
         }
     }
     throw std::runtime_error("Could not find decipher function name!");
@@ -86,27 +85,27 @@ std::string Youtube::Decipher::LoadDecipherFuncName(const std::string& p_deciphe
 
 std::string Youtube::Decipher::LoadDecipherFuncDefinition(const std::string& p_decipher_js, const std::string& p_decipher_func_name) {
     // RegExes
-    sregex expr_sub_func_definition = sregex::compile(p_decipher_func_name + R"(=function\(.+?\)\{(.+?)\})");
+    std::regex expr_sub_func_definition(p_decipher_func_name + R"(=function\(.+?\)\{(.+?)\})");
 
     // Matches
-    smatch matches_sub_funcs;
+    std::smatch matches_sub_funcs;
 
     // Search decipher function definition
-    regex_search(p_decipher_js, matches_sub_funcs, expr_sub_func_definition);
+    std::regex_search(p_decipher_js, matches_sub_funcs, expr_sub_func_definition);
     return matches_sub_funcs[1];
 }
 
 std::string Youtube::Decipher::LoadSubFuncName(const std::string& p_decipher_func_definition) {
     // RegExes
-    sregex expr_sub_func_name = sregex::compile(R"((..)\.(..)\(.,(\d)+\))");
+    std::regex expr_sub_func_name(R"((..)\.(..)\(.,(\d)+\))");
 
     // Matches
-    smatch matches_sub_func;
+    std::smatch matches_sub_func;
 
     std::stringstream ss(p_decipher_func_definition);
     std::string item;
     while (std::getline(ss, item, ';')) {
-        regex_search(item, matches_sub_func, expr_sub_func_name);
+        std::regex_search(item, matches_sub_func, expr_sub_func_name);
         std::string str_sub_func_name = matches_sub_func[1];
 
         if (!str_sub_func_name.empty())
@@ -131,27 +130,27 @@ std::string Youtube::Decipher::LoadSubFuncDefinition(const std::string& p_deciph
     }
     
     // RegExes
-    sregex expr_sub_func_definition = sregex::compile(R"(var\s)" + fixed_sub_func_name + R"(=\{((?:\n|.)*?)\};)");
+    std::regex expr_sub_func_definition(R"(var\s)" + fixed_sub_func_name + R"(=\{((?:\n|.)*?)\};)");
 
     // Matches
-    smatch matches_sub_func_definitions;
+    std::smatch matches_sub_func_definitions;
 
-    regex_search(p_decipher_js, matches_sub_func_definitions, expr_sub_func_definition);
+    std::regex_search(p_decipher_js, matches_sub_func_definitions, expr_sub_func_definition);
     return matches_sub_func_definitions[1];
 }
 
 void Youtube::Decipher::ExtractSubFuncNames(const std::string& p_sub_func_definition) {
     // RegExes
-    sregex expr_sub_func_names = sregex::compile(R"((\w\w):function\(.+?\)\{(.*?)\})");
+    std::regex expr_sub_func_names(R"((\w\w):function\(.+?\)\{(.*?)\})");
 
     // Iterator ends
-    sregex_iterator iter_end;
+    std::sregex_iterator iter_end;
 
     // Qualities
-    sregex_iterator iter_sub_func_names(p_sub_func_definition.begin(), p_sub_func_definition.end(), expr_sub_func_names);
+    std::sregex_iterator iter_sub_func_names(p_sub_func_definition.begin(), p_sub_func_definition.end(), expr_sub_func_names);
 
     while (iter_sub_func_names != iter_end) {
-        smatch matches_sub_func_name = *iter_sub_func_names++;
+        std::smatch matches_sub_func_name = *iter_sub_func_names++;
 
         std::string str_def = matches_sub_func_name[2];
 
@@ -167,15 +166,15 @@ void Youtube::Decipher::ExtractSubFuncNames(const std::string& p_sub_func_defini
 void Youtube::Decipher::ExtractDecipher(const std::string& p_decipher_func_definition) {
     // Create "decipher"
     // RegExes
-    sregex expr_sub_func = sregex::compile(R"(\.(..)\(.,(\d+)\))");
+    std::regex expr_sub_func(R"(\.(..)\(.,(\d+)\))");
 
     // Matches
-    smatch matches_sub_func;
+    std::smatch matches_sub_func;
 
     std::stringstream ss(p_decipher_func_definition);
     std::string item;
     while (std::getline(ss, item, ';')) {
-        if (!regex_search(item, matches_sub_func, expr_sub_func))
+        if (!std::regex_search(item, matches_sub_func, expr_sub_func))
             continue;
 
         std::string func_name = matches_sub_func[1];

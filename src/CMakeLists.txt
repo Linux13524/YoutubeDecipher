@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.8)
 project(YoutubeDecipher)
 
 include(cmake/tools.cmake)
@@ -35,11 +35,7 @@ add_library(YoutubeDecipher STATIC
 
 set_target_properties(YoutubeDecipher PROPERTIES DEBUG_POSTFIX "-d")
 
-if (CMAKE_VERSION VERSION_LESS "3.8")
-    set(CMAKE_CXX_STANDARD 11)
-else()
-    target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
-endif()
+target_compile_features(YoutubeDecipher PUBLIC cxx_std_11)
 
 target_include_directories(YoutubeDecipher
         INTERFACE $<INSTALL_INTERFACE:include>
