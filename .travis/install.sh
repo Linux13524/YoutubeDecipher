@@ -21,11 +21,5 @@ fi
 
 pip install conan --upgrade
 pip install conan_package_tools
-pip install spdx_lookup
 
 conan user
-
-conan config install http://github.com/conan-io/hooks.git -sf hooks -tf hooks
-conan config set hooks.attribute_checker
-conan config set hooks.github_updater
-conan config set hooks.spdx_checker

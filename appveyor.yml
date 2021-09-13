@@ -2,8 +2,8 @@ build: Script
 
 environment:
     PYTHON_DIR: "C:\\Python38-x64\\"
-    PYTHON_EXE: "C:\\Python38-x64\\python.exe"
-    PYTHON_PIP: "C:\\Python38-x64\\Scripts\\pip.exe"
+    PYTHON_EXE: "%PYTHON_DIR%\\python.exe"
+    PYTHON_PIP: "%PYTHON_DIR%\\Scripts\\pip.exe"
 
     CONAN_REFERENCE: "youtube_decipher/1.0.2"
     CONAN_USERNAME: "linux13524"
@@ -32,13 +32,7 @@ install:
   - set PATH=%PATH%;%PYTHON_DIR%/Scripts/
   - "%PYTHON_PIP% install conan --upgrade"
   - "%PYTHON_PIP% install conan_package_tools"
-  - "%PYTHON_PIP% install spdx_lookup"
-  - dir "%PYTHON_DIR%\\Scripts\\"
   - conan user # It creates the conan data directory
-  - conan config install http://github.com/conan-io/hooks.git -sf hooks -tf hooks # Install and enable the hooks
-  - conan config set hooks.attribute_checker
-  - conan config set hooks.github_updater
-  - conan config set hooks.spdx_checker
 
 build_script:
   - "%PYTHON_EXE% build.py"
