@@ -5,7 +5,7 @@ environment:
     PYTHON_EXE: "C:\\Python38-x64\\python.exe"
     PYTHON_PIP: "C:\\Python38-x64\\Scripts\\pip.exe"
 
-    CONAN_REFERENCE: "youtube_decipher/1.0.1"
+    CONAN_REFERENCE: "youtube_decipher/1.0.2"
     CONAN_USERNAME: "linux13524"
     CONAN_CHANNEL: "testing"
     CONAN_CPPSTDS: "17"

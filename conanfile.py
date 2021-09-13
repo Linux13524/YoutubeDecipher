@@ -3,7 +3,7 @@ from conans import tools, ConanFile, CMake
 
 class YoutubeDecipherConan(ConanFile):
     name = "youtube_decipher"
-    version = "1.0.1"
+    version = "1.0.2"
     default_user = "linux13524"
     default_channel = "testing"
     license = "MIT"
