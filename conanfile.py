@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import tools, ConanFile, CMake
 
 
 class YoutubeDecipherConan(ConanFile):
@@ -22,6 +22,9 @@ class YoutubeDecipherConan(ConanFile):
     def requirements(self):
         self.requires("cpr/1.3.0")
         self.requires("nlohmann_json/3.10.0")
+
+    def validate(self):
+        tools.check_min_cppstd(self, "17")
 
     def configure(self):
         if self.settings.compiler == 'Visual Studio':
